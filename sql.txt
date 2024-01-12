@@ -1,0 +1,76 @@
+use lms;
+
+truncate course_details_1;
+truncate fee_payment;
+truncate students;
+truncate examfee;
+
+-- Dummy records for Students
+INSERT INTO students (std_id, contact_no, email_address, full_name, password, role)
+VALUES (101, '1234567890', 'john.doe@example.com', 'John Doe', 'password123', 'student'),
+       (102, '9876543210', 'jane.smith@example.com', 'Jane Smith', 'password456', 'student'),
+       (103, '9876543210','alice.wonder@example.com', 'Alice Wonder', 'p@ssw0rd', 'student'),
+       (104, '9876543210','charlie.brown@example.com', 'Charlie Brown', 'letmein', 'student'),
+       (105, '9876543210','lisa.anderson@example.com', 'Lisa Anderson', 'password321', 'student'),
+       (106,'9876543210', 'mike.williams@example.com', 'Mike Williams', '1234pass', 'student');
+
+-- Dummy records for CourseDetails
+INSERT INTO course_details_1 (course_id, course_name, course_duration, start_date, end_date)
+VALUES (101, 'Java Programming', '3 months', '2023-01-01', '2023-04-01'),
+       (102, 'Web Development', '6 months', '2023-02-01', '2023-08-01'),
+       (103, 'Data Science', '4 months', '2023-03-01', '2023-06-01');
+
+-- Dummy records for FeePayment
+INSERT INTO fee_payment (id,regid, full_name, course_id, course_name, total_course_fee, payment_type, amount_pay, pending_amount, payment_option, installment_count, pay_date)
+VALUES (1,101, 'John Doe', 101, 'Java Programming', 200.00, 'Credit Card', 100.00, 100.00, 'Online', '2', '2023-03-15'),
+       (2,102, 'Jane Smith', 102, 'Web Development', 300.00, 'Cash', 150.00, 150.00, 'Offline', '1', '2023-03-20'),
+       (3,103, 'Alice Wonder', 103, 'Data Science', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '3', '2023-03-10');
+
+-- Dummy records for ExamFee
+INSERT INTO examfee (regid, fullname, courseid, coursename, examfees)
+VALUES (101, 'John Doe', 101, 'Java Programming', 100.00),
+       (102, 'Jane Smith', 102, 'Web Development', 150.00),
+       (103, 'Alice Wonder', 103, 'Data Science', 120.00);
+
+-- Additional records for testing the queries
+-- For the first query
+INSERT INTO students (std_id, contact_no, email_address, full_name, password, role)
+VALUES (107, '5432109876', 'mila.kumar@example.com', 'Mila Kumar', 'securepass123', 'student'),
+       (108, '7654321098', 'sam.anderson@example.com', 'Sam Anderson', 'myp@ssword', 'student');
+
+INSERT INTO course_details_1 (course_id, course_name, course_duration, start_date, end_date)
+VALUES (107, 'Mobile App Development', '5 months', '2023-04-01', '2023-08-01'),
+       (108, 'Digital Marketing', '4 months', '2023-05-01', '2023-08-01');
+
+-- For the second query
+INSERT INTO fee_payment (id,regid, full_name, course_id, course_name, total_course_fee, payment_type, amount_pay, pending_amount, payment_option, installment_count, pay_date)
+VALUES (7,107, 'Mila Kumar', 107, 'Mobile App Development', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '2', '2023-03-15');
+
+-- For the third query
+INSERT INTO examfee (regid, fullname, courseid, coursename, examfees)
+VALUES (107, 'Mila Kumar', 107, 'Mobile App Development', 120.00);
+
+-- Additional records for FeePayment
+INSERT INTO fee_payment (id,regid, full_name, course_id, course_name, total_course_fee, payment_type, amount_pay, pending_amount, payment_option, installment_count, pay_date)
+VALUES 
+    (4,104, 'Charlie Brown', 101, 'Java Programming', 200.00, 'Credit Card', 100.00, 100.00, 'Online', '2', '2023-03-18'),
+    (5,105, 'Lisa Anderson', 102, 'Web Development', 300.00, 'Cash', 150.00, 150.00, 'Offline', '1', '2023-03-22'),
+    (6,106, 'Mike Williams', 103, 'Data Science', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '3', '2023-03-12'),
+    (9,109, 'Sam Martin', 107, 'Mobile App Development', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '2', '2023-03-25'),
+    (10,110, 'Emily White', 108, 'Digital Marketing', 200.00, 'Cash', 100.00, 100.00, 'Offline', '1', '2023-03-28'),
+    (11,111, 'Sara Green', 107, 'Mobile App Development', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '2', '2023-03-30'),
+    (12,112, 'John Doe', 101, 'Java Programming', 200.00, 'Credit Card', 100.00, 100.00, 'Online', '2', '2023-04-01'),
+    (13,113, 'Jane Smith', 102, 'Web Development', 300.00, 'Cash', 150.00, 150.00, 'Offline', '1', '2023-04-03'),
+    (14,114, 'Alice Wonder', 103, 'Data Science', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '3', '2023-04-05'),
+    (15,115, 'Mila Kumar', 107, 'Mobile App Development', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '2', '2023-04-07'),
+    (16,116, 'Sam Anderson', 108, 'Digital Marketing', 200.00, 'Cash', 100.00, 100.00, 'Offline', '1', '2023-04-09'),
+    (17,117, 'Charlie Brown', 101, 'Java Programming', 200.00, 'Credit Card', 100.00, 100.00, 'Online', '2', '2023-04-11'),
+    (18,118, 'Lisa Anderson', 102, 'Web Development', 300.00, 'Cash', 150.00, 150.00, 'Offline', '1', '2023-04-13'),
+    (19,119, 'Mike Williams', 103, 'Data Science', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '3', '2023-04-15'),
+    (20,120, 'Sam Martin', 107, 'Mobile App Development', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '2', '2023-04-17'),
+    (21,121, 'Emily White', 108, 'Digital Marketing', 200.00, 'Cash', 100.00, 100.00, 'Offline', '1', '2023-04-19'),
+    (22,122, 'John Doe', 101, 'Java Programming', 200.00, 'Credit Card', 100.00, 100.00, 'Online', '2', '2023-04-21'),
+    (23,123, 'Jane Smith', 102, 'Web Development', 300.00, 'Cash', 150.00, 150.00, 'Offline', '1', '2023-04-23'),
+    (24,124, 'Alice Wonder', 103, 'Data Science', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '3', '2023-04-25'),
+    (25,125, 'Mila Kumar', 107, 'Mobile App Development', 250.00, 'Credit Card', 120.00, 130.00, 'Online', '2', '2023-04-27');
+
