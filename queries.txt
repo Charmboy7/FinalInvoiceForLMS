@@ -1,0 +1,99 @@
+use lms;
+truncate course_details_1;
+truncate fee_payment;
+truncate students;
+truncate examfee;
+
+
+-- Dummy records for Students
+INSERT INTO students (std_id, contact_no, email_address, full_name, password, role)
+VALUES (101, '1234567890', 'john.doe@example.com', 'John Doe', 'password123', 'student'),
+       (102, '9876543210', 'jane.smith@example.com', 'Jane Smith', 'password456', 'student');
+
+-- Dummy records for CourseDetails
+INSERT INTO course_details_1 (course_id, course_name, course_duration, start_date, end_date)
+VALUES (101, 'Java Programming', '3 months', '2023-01-01', '2023-04-01'),
+       (102, 'Web Development', '6 months', '2023-02-01', '2023-08-01');
+
+-- Dummy records for FeePayment
+INSERT INTO fee_payment (id, regid, full_name, course_id, course_name, total_course_fee, payment_type, amount_pay, pending_amount, payment_option, installment_count, pay_date)
+VALUES (1, 101, 'John Doe', 101, 'Java Programming', 200.00, 'Credit Card', 100.00, 100.00, 'Online', '2', '2023-03-15'),
+       (2, 102, 'Jane Smith', 102, 'Web Development', 300.00, 'Cash', 150.00, 150.00, 'Offline', '1', '2023-03-20');
+
+-- Dummy records for ExamFee
+INSERT INTO examfee (regid, fullname, courseid, coursename, examfees)
+VALUES (101, 'John Doe', 101, 'Java Programming', 100.00),
+       (102, 'Jane Smith', 102, 'Web Development', 150.00);
+
+
+
+-- Use LMS database
+USE lms;
+
+-- Dummy data for students with no fee_payment
+INSERT INTO students (std_id, contact_no, email_address, full_name, password, role)
+VALUES
+  (104, '7654321098', 'alice.wonder@example.com', 'Alice Wonder', 'p@ssw0rd', 'student'),
+  (105, '6543210987', 'charlie.brown@example.com', 'Charlie Brown', 'letmein', 'student'),
+  (106, '5432109876', 'lisa.anderson@example.com', 'Lisa Anderson', 'password321', 'student'),
+  (107, '4321098765', 'mike.williams@example.com', 'Mike Williams', '1234pass', 'student'),
+  (108, '3210987654', 'sara.green@example.com', 'Sara Green', 'securepassword', 'student'),
+  (109, '2109876543', 'sam.martin@example.com', 'Sam Martin', 'myp@ss', 'student'),
+  (110, '1098765432', 'emily.white@example.com', 'Emily White', 'pass123', 'student');
+
+-- old(dont use this)
+ -- SELECT fp.id, fp.regid, fp.full_name, fp.course_id, fp.installment_count, fp.pay_date,
+ --      cd.course_name, cd.course_duration, cd.start_date, cd.end_date,
+ --      fp.total_course_fee, fp.payment_type, fp.amount_pay, fp.pending_amount, fp.payment_option
+-- FROM fee_payment fp
+-- JOIN course_details_1 cd ON fp.course_id = cd.course_id
+-- WHERE fp.regid = 101;
+
+-- new (use this onlyy)
+SELECT s.std_id, s.full_name, s.email_address, s.contact_no, cd.*, fp.*
+FROM students s
+JOIN course_details_1 cd ON s.std_id = cd.course_id
+JOIN fee_payment fp ON s.std_id = fp.regid
+WHERE fp.regid = 101;
+
+
+
+SELECT cd.course_id, cd.course_name, cd.course_duration, cd.start_date, cd.end_date,
+ef.regid, ef.fullname AS examfee_fullname, ef.courseid, ef.coursename, ef.examfees,
+s.contact_no, s.email_address, s.full_name AS student_name
+FROM course_details_1 cd
+JOIN examfee ef ON cd.course_id = ef.courseid
+JOIN students s ON ef.regid = s.std_id
+WHERE s.std_id = 101;
+
+use lms;
+SELECT students.std_id, students.contact_no, students.email_address, students.full_name, students.password, students.role
+FROM students
+LEFT JOIN fee_payment ON students.std_id = fee_payment.Regid
+WHERE fee_payment.Regid IS NULL;
+
+
+
+
+-- Dummy records for CourseDetails for students with no fee_payment
+INSERT INTO course_details_1 (course_id, course_name, course_duration, start_date, end_date)
+VALUES
+  (104, 'Data Science', '4 months', '2023-01-15', '2023-05-15'),
+  (105, 'Mobile App Development', '5 months', '2023-03-01', '2023-07-01'),
+  (106, 'Network Security', '3 months', '2023-02-10', '2023-05-10'),
+  (107, 'Graphic Design', '6 months', '2023-04-01', '2023-10-01'),
+  (108, 'Digital Marketing', '4 months', '2023-05-15', '2023-09-15'),
+  (109, 'Artificial Intelligence', '6 months', '2023-03-20', '2023-09-20'),
+  (110, 'Database Management', '5 months', '2023-02-01', '2023-06-01');
+
+-- Dummy records for ExamFee for students with no fee_payment
+INSERT INTO examfee (regid, fullname, courseid, coursename, examfees)
+VALUES
+  (104, 'Alice Wonder', 104, 'Data Science', 120.00),
+  (105, 'Charlie Brown', 105, 'Mobile App Development', 150.00),
+  (106, 'Lisa Anderson', 106, 'Network Security', 100.00),
+  (107, 'Mike Williams', 107, 'Graphic Design', 180.00),
+  (108, 'Sara Green', 108, 'Digital Marketing', 130.00),
+  (109, 'Sam Martin', 109, 'Artificial Intelligence', 200.00),
+  (110, 'Emily White', 110, 'Database Management', 160.00);
+
